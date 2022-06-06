@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icon">
+    <file>static/YouTube.ico</file>
+  </qresource>
+</RCC>
