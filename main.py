@@ -1,18 +1,35 @@
 import os
 import sys
 import json
-import time as time
-from multiprocessing import Process
-from threading import Thread
-from PySide6 import QtWidgets
-from PySide6.QtCore import Slot, QThread, Signal
+from PySide6.QtCore import Slot, QThread, Signal, QObject
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
-from ThreadYoutubeDownload import ThreadYoutubeDownload
 from design.ui_main import Ui_mainWidget
+import pytube
+from pytube import YouTube
 
 
-    # self.btn_download.setText("DOWNLOAD")
-    # self.btn_download.setEnabled(True)
+class ThreadSignal(QObject):
+    sig = Signal()
+
+
+class ThreadYoutubeDownload(QThread):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.signal = ThreadSignal()
+        self.url = ""
+        self.download_path = ""
+
+    def run(self):
+        try:
+            self.youtube_download(self.url, self.download_path)
+        except pytube.exceptions.RegexMatchError:
+            self.signal.sig.emit()
+
+    @staticmethod
+    def youtube_download(url: str, download_path: str):
+        yt = YouTube(url)  # 유튜브 영상 URL 입력
+        yt.streams.filter(progressive=True, file_extension='mp4') \
+            .order_by('resolution').desc().first().download(download_path)
 
 
 class MainWindow(QMainWindow, Ui_mainWidget):
@@ -28,6 +45,9 @@ class MainWindow(QMainWindow, Ui_mainWidget):
         self.edit_download_path.clicked.connect(lambda: self.open_file_dialog(self.edit_download_path))
         self.edit_download_path.textChanged.connect(lambda: self.save_config())
         self.btn_download.clicked.connect(lambda: self.download())
+        self.thread = ThreadYoutubeDownload()
+        self.thread.signal.sig.connect(self.activate_btn)
+        # self.thread.signal.sig.connect()
 
         self.ref_edit_youtube_url = self.edit_youtube_url
         self.ref_edit_download_path = self.edit_download_path
@@ -59,28 +79,24 @@ class MainWindow(QMainWindow, Ui_mainWidget):
 
         self.save_config()
 
-        th_youtube_download = ThreadYoutubeDownload(self)
-        th_youtube_download.url = self.edit_youtube_url.text()
-        th_youtube_download.download_path = self.edit_download_path.text()
-        th_youtube_download.start()
-        # thread_youtube_download = Thread(target=self.youtube_download,
-        #                                  args=(self.edit_youtube_url.text(),))
-        # thread_youtube_download.start()
-        # thread_youtube_download.join()  # wait thread finish
-
-        # yt = YouTube('https://www.youtube.com/watch?v=rRzxEiBLQCA')  # 유튜브 영상 URL 입력
-        # yt.streams        # 해당 URL의 영상 스트림을 리스트로 가져온다
-        # .filter(progressive=True, file_extension='mp4') \  # 프로그레시브 방식의 인코딩, 파일 포맷은 MP4
-        # .order_by('resolution') \  # 영상 해상도 순으로 정렬
-        # .desc() \           # 내림차순 정렬
-        # .first() \          # 가장 첫 번째 스트림(가장 고화질)
-        # .download()         # 다운로드, 매개변수로 다운로드 경로를 지정할 수 있음
+        self.thread.url = self.edit_youtube_url.text()
+        self.thread.download_path = self.edit_download_path.text()
+        self.thread.start()
 
     def save_config(self):
         with open("app.config", "w", encoding='utf-8') as f:
             json.dump({"youtube url": self.edit_youtube_url.text(),
                        "download path": self.edit_download_path.text()},
                       f, ensure_ascii=False, indent="\t")
+
+    def activate_btn(self):
+        msg_box = QMessageBox()
+        msg_box.setText("Please Check URL")
+        msg_box.exec()
+
+        self.btn_download.setText("DOWNLOAD")
+        self.btn_download.setEnabled(True)
+        self.btn_download.repaint()
 
 
 if __name__ == "__main__":
