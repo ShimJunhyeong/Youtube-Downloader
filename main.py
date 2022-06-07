@@ -10,6 +10,7 @@ from pytube import YouTube
 
 class ThreadSignal(QObject):
     sig = Signal()
+    suc_sig = Signal()
 
 
 class ThreadYoutubeDownload(QThread):
@@ -22,6 +23,7 @@ class ThreadYoutubeDownload(QThread):
     def run(self):
         try:
             self.youtube_download(self.url, self.download_path)
+            self.signal.suc_sig.emit()
         except pytube.exceptions.RegexMatchError:
             self.signal.sig.emit()
 
@@ -46,8 +48,8 @@ class MainWindow(QMainWindow, Ui_mainWidget):
         self.edit_download_path.textChanged.connect(lambda: self.save_config())
         self.btn_download.clicked.connect(lambda: self.download())
         self.thread = ThreadYoutubeDownload()
-        self.thread.signal.sig.connect(self.activate_btn)
-        # self.thread.signal.sig.connect()
+        self.thread.signal.sig.connect(self.activate_btn_fail)
+        self.thread.signal.suc_sig.connect(self.activate_btn_success)
 
         self.ref_edit_youtube_url = self.edit_youtube_url
         self.ref_edit_download_path = self.edit_download_path
@@ -89,9 +91,18 @@ class MainWindow(QMainWindow, Ui_mainWidget):
                        "download path": self.edit_download_path.text()},
                       f, ensure_ascii=False, indent="\t")
 
-    def activate_btn(self):
+    def activate_btn_fail(self):
         msg_box = QMessageBox()
         msg_box.setText("Please Check URL")
+        msg_box.exec()
+
+        self.btn_download.setText("DOWNLOAD")
+        self.btn_download.setEnabled(True)
+        self.btn_download.repaint()
+
+    def activate_btn_success(self):
+        msg_box = QMessageBox()
+        msg_box.setText("Download Complete")
         msg_box.exec()
 
         self.btn_download.setText("DOWNLOAD")
