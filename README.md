@@ -1,5 +1,3 @@
-!!! This project is still under development and is not working properly.
-
 This is Pyside6 Project
 To download YouTube videos, I uses the pytube library
 
