@@ -1,6 +1,8 @@
 import os
 import sys
 import json
+
+from PySide6 import QtWidgets
 from PySide6.QtCore import Slot, QThread, Signal, QObject
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
 from design.ui_main import Ui_mainWidget
@@ -74,6 +76,7 @@ class MainWindow(QMainWindow, Ui_mainWidget):
     def download(self):
         if not os.path.isdir(self.edit_download_path.text()):
             self.open_file_dialog(self.edit_download_path)
+            return
 
         self.btn_download.setText("DOWNLOADING...")
         self.btn_download.setEnabled(False)
@@ -101,10 +104,7 @@ class MainWindow(QMainWindow, Ui_mainWidget):
         self.btn_download.repaint()
 
     def activate_btn_success(self):
-        msg_box = QMessageBox()
-        msg_box.setText("Download Complete")
-        msg_box.exec()
-
+        QtWidgets.QMessageBox.information(self, "Information", "Download Complete", )
         self.btn_download.setText("DOWNLOAD")
         self.btn_download.setEnabled(True)
         self.btn_download.repaint()
