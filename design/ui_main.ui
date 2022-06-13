@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>415</width>
-    <height>265</height>
+    <width>410</width>
+    <height>260</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,17 @@
 #edit_download_path:disabled {
 	background-color: #ffffff;
 }
-</string>
+
+QPushButton#btn_download {
+	background-color: rgb(0, 122, 255);
+	border-radius: 5px;
+	font: 700 16pt &quot;맑은 고딕&quot;;
+	color: white;
+}
+
+QPushButton#btn_download:hover {
+	background-color: rgb(12, 86, 208);
+}</string>
   </property>
   <widget class="QLabel" name="lbl_title">
    <property name="geometry">
@@ -89,7 +99,7 @@
     <rect>
      <x>22</x>
      <y>130</y>
-     <width>101</width>
+     <width>161</width>
      <height>16</height>
     </rect>
    </property>
@@ -99,7 +109,7 @@
     </font>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;다운로드 할 경로&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Folder Path To Download&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="edit_youtube_url">
@@ -111,13 +121,16 @@
      <height>22</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
   </widget>
   <widget class="QLabel" name="lbl_youtube_url">
    <property name="geometry">
     <rect>
      <x>22</x>
      <y>80</y>
-     <width>191</width>
+     <width>201</width>
      <height>16</height>
     </rect>
    </property>
@@ -127,7 +140,7 @@
     </font>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;다운로드 할 YouTube 영상 URL&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Youtube Video URL To Download&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_download">
@@ -139,13 +152,17 @@
      <height>51</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>15</pointsize>
-    </font>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>DOWNLOAD</string>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="flat">
+    <bool>false</bool>
    </property>
   </widget>
  </widget>
