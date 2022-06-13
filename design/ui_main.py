@@ -30,12 +30,8 @@ class Ui_mainWidget(object):
         icon = QIcon()
         icon.addFile(u":/icon/static/YouTube.ico", QSize(), QIcon.Normal, QIcon.Off)
         mainWidget.setWindowIcon(icon)
-        mainWidget.setStyleSheet(u"#mainWidget{\n"
-"	background-color: #3C3F41;\n"
-"}\n"
-"\n"
-"#edit_download_path:disabled {\n"
-"	background-color: #ffffff;\n"
+        mainWidget.setStyleSheet(u"QLineEdit{\n"
+"	border-radius: 2px;\n"
 "}\n"
 "\n"
 "QPushButton#btn_download {\n"
@@ -47,7 +43,16 @@ class Ui_mainWidget(object):
 "\n"
 "QPushButton#btn_download:hover {\n"
 "	background-color: rgb(12, 86, 208);\n"
-"}")
+"}\n"
+"\n"
+"#mainWidget{\n"
+"	background-color: #3C3F41;\n"
+"}\n"
+"\n"
+"#edit_download_path:disabled {\n"
+"	background-color: #ffffff;\n"
+"}\n"
+"")
         self.lbl_title = QLabel(mainWidget)
         self.lbl_title.setObjectName(u"lbl_title")
         self.lbl_title.setGeometry(QRect(87, 10, 281, 61))
@@ -66,6 +71,7 @@ class Ui_mainWidget(object):
         self.edit_download_path.setObjectName(u"edit_download_path")
         self.edit_download_path.setEnabled(True)
         self.edit_download_path.setGeometry(QRect(20, 150, 371, 22))
+        self.edit_download_path.setStyleSheet(u"")
         self.edit_download_path.setReadOnly(True)
         self.lbl_download_path = QLabelCustom(mainWidget)
         self.lbl_download_path.setObjectName(u"lbl_download_path")

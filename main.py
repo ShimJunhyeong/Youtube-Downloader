@@ -70,7 +70,8 @@ class MainWindow(QMainWindow, Ui_mainWidget):
     def open_file_dialog(self, edit_download_path):
         dialog = QFileDialog()
         foo_dir = dialog.getExistingDirectory(self, '다운로드 받은 유튜브 영상을 저장할 폴더를 선택하세요.')
-        edit_download_path.setText(foo_dir)
+        if foo_dir != '':
+            edit_download_path.setText(foo_dir)
 
     @Slot()
     def download(self):
