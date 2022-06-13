@@ -18,12 +18,8 @@
     <normaloff>:/icon/static/YouTube.ico</normaloff>:/icon/static/YouTube.ico</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">#mainWidget{
-	background-color: #3C3F41;
-}
-
-#edit_download_path:disabled {
-	background-color: #ffffff;
+   <string notr="true">QLineEdit{
+	border-radius: 2px;
 }
 
 QPushButton#btn_download {
@@ -35,7 +31,16 @@ QPushButton#btn_download {
 
 QPushButton#btn_download:hover {
 	background-color: rgb(12, 86, 208);
-}</string>
+}
+
+#mainWidget{
+	background-color: #3C3F41;
+}
+
+#edit_download_path:disabled {
+	background-color: #ffffff;
+}
+</string>
   </property>
   <widget class="QLabel" name="lbl_title">
    <property name="geometry">
@@ -89,6 +94,9 @@ QPushButton#btn_download:hover {
      <width>371</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="readOnly">
     <bool>true</bool>
